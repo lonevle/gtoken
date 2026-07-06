@@ -18,4 +18,5 @@ const (
 	MsgErrDataEmpty         = "cache value is nil"
 	MsgErrTokenEmpty        = "token empty"
 	MsgErrExpiredOrNotExist = "Data Expired or not Exist"
+	MsgErrInstanceNotInit   = "GToken instance not initialized"
 )
