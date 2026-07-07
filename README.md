@@ -167,12 +167,6 @@ userID, err := gtoken.GetUserIDByToken(ctx, token string) (*gvar.Var, error)
 token, err := gtoken.GetTokenByUserKey(ctx, userID string) (string, error)
 ```
 
-### 生成 Token
-
-```go
-token, err := gtoken.GenerateToken(userID string) (string, error)
-```
-
 ### 路径管理
 
 ```go
@@ -238,3 +232,7 @@ group.Middleware(gtoken.NewMiddleware(func(r *ghttp.Request, err error) {
 1. **分布式锁**：当前使用 `gmlock`（进程内锁），在 Redis 多实例环境下无法提供分布式锁保护
 2. **Token 续期**：`EnableRenew` 默认关闭（`false`），需显式开启
 3. **单点登录**：`MultiLogin` 为 `false` 时，每次登录会生成新 Token 并失效旧 Token
+
+Todo：
+
+- [ ] 统一错误码，支持自定义错误码
