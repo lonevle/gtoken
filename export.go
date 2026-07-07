@@ -6,28 +6,30 @@ import (
 	"github.com/gogf/gf/v2/container/gvar"
 	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/util/gconv"
 )
 
 // Login 用户登录，生成并返回 token
 // ctx: 上下文
 // userID: 用户唯一标识
 // return: token 和错误信息
-func Login(ctx context.Context, userID string) (string, error) {
+func Login(ctx context.Context, userID any) (string, error) {
 	if Instance == nil {
 		return "", gerror.NewCode(gcode.CodeInternalError, MsgErrInstanceNotInit)
 	}
-	return Instance.Login(ctx, userID)
+
+	return Instance.Login(ctx, gconv.String(userID))
 }
 
 // Logout 用户退出登录，清除用户相关的 token 缓存
 // ctx: 上下文
 // userID: 用户唯一标识
 // return: 错误信息
-func Logout(ctx context.Context, userID string) error {
+func Logout(ctx context.Context, userID any) error {
 	if Instance == nil {
 		return gerror.NewCode(gcode.CodeInternalError, MsgErrInstanceNotInit)
 	}
-	return Instance.Logout(ctx, userID)
+	return Instance.Logout(ctx, gconv.String(userID))
 }
 
 // LogoutByToken 通过 token 退出登录，清除该 token 及关联的用户缓存
@@ -56,11 +58,11 @@ func GetUserIDByToken(ctx context.Context, token string) (*gvar.Var, error) {
 // ctx: 上下文
 // userID: 用户唯一标识
 // return: token 和错误信息
-func GetTokenByUserKey(ctx context.Context, userID string) (string, error) {
+func GetTokenByUserKey(ctx context.Context, userID any) (string, error) {
 	if Instance == nil {
 		return "", gerror.NewCode(gcode.CodeInternalError, MsgErrInstanceNotInit)
 	}
-	return Instance.GetTokenByUserKey(ctx, userID)
+	return Instance.GetTokenByUserKey(ctx, gconv.String(userID))
 }
 
 // IsLogin 验证 token 是否有效，判断用户是否已登录
@@ -72,16 +74,6 @@ func IsLogin(ctx context.Context, token string) (userID *gvar.Var, isLoggedIn bo
 		return nil, false, gerror.NewCode(gcode.CodeInternalError, MsgErrInstanceNotInit)
 	}
 	return Instance.IsLogin(ctx, token)
-}
-
-// GenerateToken 生成新的 token
-// userID: 用户唯一标识
-// return: token 和错误信息
-func GenerateToken(userID string) (string, error) {
-	if Instance == nil {
-		return "", gerror.NewCode(gcode.CodeInternalError, MsgErrInstanceNotInit)
-	}
-	return Instance.GenerateToken(userID)
 }
 
 // AddExcludePaths 添加认证排除路径，这些路径不需要 token 验证
