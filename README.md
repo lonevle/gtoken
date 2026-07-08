@@ -233,6 +233,7 @@ group.Middleware(gtoken.NewMiddleware(func(r *ghttp.Request, err error) {
 2. **Token 续期**：`EnableRenew` 默认关闭（`false`），需显式开启
 3. **单点登录**：`MultiLogin` 为 `false` 时，每次登录会生成新 Token 并失效旧 Token
 
-Todo：
+## Todo：
 
 - [ ] 统一错误码，支持自定义错误码
+- [ ] 短有效期 JWT + Refresh Token
